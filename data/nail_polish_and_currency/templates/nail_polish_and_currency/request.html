@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block content%}
+
+
+<h1> {{ title }} </h1>
+
+{% if error_message %}
+    <h1> {{ error_message }} </h1>
+{% endif %}
+
+
+<style>
+    .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+<!--<div class="row" style="background-color:blue;">-->
+
+    <form action="" method="POST" class="center">
+        {% csrf_token %}
+        <p><label for="id_1">Nail polish: </label>
+            <input type="text" id="id_1" name="name" placeholder="Enter your nail polish">
+        </p>
+        <p><label for="id_2">Expiration date:</label>
+            <input type="text" id="id_2" name="exp_date" placeholder="YYYY-MM-DD">
+        </p>
+        <p><label for="id_3">What type: </label>
+            <input type="number" id="id_3" name="what_type" placeholder="1(ordinary) or 2(shellac)"></p>
+
+<!--        <div class="dropdown">-->
+<!--          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--            Dropdown button-->
+<!--          </button>-->
+<!--          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
+<!--            <li><a class="dropdown-item" href="#"></a>ordinaty nail polish</li>-->
+<!--            <li><a class="dropdown-item" href="#">shellac</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
+
+        <p><button type="submit">Send</button></p>
+    </form>
+<!--</div>-->
+
+
+{% endblock %}

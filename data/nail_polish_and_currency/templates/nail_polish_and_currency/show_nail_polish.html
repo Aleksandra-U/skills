@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <link-->
+<!--      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"-->
+<!--      rel="stylesheet"-->
+<!--      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"-->
+<!--      crossorigin="anonymous"-->
+<!--    />-->
+<!--    <title>{{ title }} </title>-->
+
+<!--    <style>-->
+<!--        .table-wrapper {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            height: 100vh;-->
+<!--        }-->
+<!--        .table {-->
+<!--            table-layout: fixed;-->
+<!--            width: auto; /* Можно указать нужную ширину таблицы */-->
+<!--        }-->
+<!--    </style>-->
+
+<!--    <style>-->
+<!--    .table {-->
+<!--        table-layout: fixed;-->
+<!--        width: auto; /* Можно указать нужную ширину таблицы */-->
+<!--    }-->
+<!--    .table td {-->
+<!--        width: 25%; /* Равномерно распределить ширину ячеек */-->
+<!--    }-->
+<!--    .nestedTable {-->
+<!--        table-layout: fixed;-->
+<!--        width: 100%; /* Занимать всю ширину родительской ячейки */-->
+<!--    }-->
+<!--    </style>-->
+
+
+<!--    <style>-->
+<!--    .red-background {-->
+<!--        background-color: red;-->
+<!--    }-->
+<!--    </style>-->
+
+<!--</head>-->
+<!--<body>-->
+
+{% block content %}
+
+<div class="table-wrapper">
+
+<table class="table table-striped-columns">
+
+    <tr>
+<!--    <th>id</th>-->
+    <th>name</th>
+    <th>button</th>
+    </tr>
+
+    {% for l in types_nail_polish %}
+    <tr>
+        <td>{{ l.name }}</td>
+
+
+
+        <td>
+          {% if l.id in all_types_id %}
+            <button onclick="showNestedTable(this)">press_the_button</button>
+          {% else %}
+            <p>No products</p>
+          {% endif %}
+        </td>
+
+
+    </tr>
+
+    {% if not forloop.last %}
+    <hr>
+    {% endif %}
+
+    <tr id="nestedRow" style="display: none;">
+        <td colspan="4">
+            <div id="nestedTable">
+                <table class="table">
+                    <tr>
+<!--                        <th>id</th>-->
+<!--                        <th>id_robot</th>-->
+                        <th style="width: 50%;">name</th>
+                        <th style="width: 50%;">expiration date</th>
+                    </tr>
+
+                    {% for p in variant_nail_polish %}
+                        {% if p.types_id == l.id %}
+
+
+                            <tr class="table-success">
+                                <td>{{ p.name }}</td>
+                                <td>{{ p.expiration_date }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+<script>
+    function showNestedTable(button) {
+        var nestedRow = button.parentElement.parentElement.nextElementSibling;
+
+        if (nestedRow.style.display === "none") {
+            nestedRow.style.display = "table-row";
+        } else {
+            nestedRow.style.display = "none";
+        }
+    }
+</script>
+
+{% endblock %}
+
+<!--</body>-->
+<!--</html>-->

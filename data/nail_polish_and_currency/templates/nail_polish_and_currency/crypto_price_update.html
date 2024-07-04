@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1> {{ title }} </h1>
+
+
+<div class="row" style="background-color:violet;">
+
+    <div class="col" style="background-color:green; text-align:center">
+        <h1> Binance </h1>
+    </div>
+
+    <div class="col" style="background-color:pink; text-align:center">
+        <h1> Bybit </h1>
+    </div>
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-6" style="background-color:yellow;">
+       <div class="table-wrapper">
+
+            <table id='tblBinance' class="table table-striped-columns">
+
+                <thead>
+                <tr>
+                <th>Coin from Binance</th>
+                <th>price</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for p in coin_and_price_bin %}
+                <tr>
+                    <td>{{ p.0 }}</td>
+                    <td>{{ p.1 }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-6" style="background-color:cornflowerblue;">
+        <div class="table-wrapper">
+
+            <table id='tblBybit' class="table table-striped-columns">
+
+                <thead>
+                <tr>
+                <th>Coin from Bybit</th>
+                <th>price</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for p in coin_and_price_by %}
+                <tr>
+                    <td>{{ p.0 }}</td>
+                    <td>{{ p.1 }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+        $(document).ready(function(){
+            setInterval(function(){
+                $.ajax({
+                    type: 'GET',
+                    url : "/live_broadcast",
+                    success: function(response) {
+
+                        $('#tblBinance tbody').empty();
+                        $('#tblBybit tbody').empty();
+
+                        try{
+                            var tr;
+
+                            $.each(response.coin_and_price_bin, function (index, price_bin){
+
+
+
+                                tr = $(`<tr>`);
+                                tr.append(`<td>${price_bin[0]}</td>`);
+                                tr.append(`<td>${price_bin[1]}</td>`);
+                                tr.append(`</tr>`)
+                                $('#tblBinance').append(tr);
+                            });
+
+                            $.each(response.coin_and_price_by, function (index, price_by){
+
+                                tr = $(`<tr>`);
+                                tr.append(`<td>${price_by[0]}</td>`);
+                                tr.append(`<td>${price_by[1]}</td>`);
+                                tr.append(`</tr>`)
+                                $('#tblBybit').append(tr);
+                            });
+
+                        }
+                        catch(err){
+                            console.log(err);
+                        }
+                    },
+                    error : function(response){
+
+                    }
+                });
+            },3000);
+        })
+    </script>
+
+
+{% endblock %}
